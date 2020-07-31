@@ -43,7 +43,9 @@ function RegisterCategory() {
   }
 
   useEffect(() => {
-    const URL = 'http://localhost:8080/categorias';
+    const URL = window.location.hostname.includes('localhost')
+    ? 'http://localhost:8080/categorias'
+    : 'https://adaflix.herokuapp.com/categorias';
     fetch(URL)
       .then(async (response) => {
         const formatedResponse = await response.json();
@@ -80,7 +82,7 @@ function RegisterCategory() {
 
         {categories.length === 0 && (
           <div>
-            Loading...
+            Carregando...
           </div>
         )}
 
