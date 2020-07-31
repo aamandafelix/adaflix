@@ -57,4 +57,4 @@ const Slider = ({ children }: SliderProps) => (
   </Container>
 );
 
-export default Slider; 
+export default Slider;

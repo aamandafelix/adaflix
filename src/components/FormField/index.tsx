@@ -8,12 +8,17 @@ interface FormFieldProps {
   onChange: ChangeEventHandler;
 }
 
-function FormField({ label, type, name, value, onChange }: FormFieldProps) {
+function FormField({
+  label, type, name, value, onChange,
+}: FormFieldProps) {
+  const fieldId = `id_${name}`;
+
   return (
     <div>
-      <label>
+      <label htmlFor={fieldId}>
         {label}
         <input
+          id={fieldId}
           type={type}
           name={name}
           value={value}

@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-// interface ContentAreaContainer {
-//   Item?: any;
-//   Category?: any;
-//   Description?: any;
-//   Title?: any;
-// }
-
 export const ContentAreaContainer: any = styled.section`
   margin-left: 5%;
   margin-right: 5%;

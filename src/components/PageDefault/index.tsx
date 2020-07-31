@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 import Menu from '../Menu';
 import Footer from '../Footer';
-import styled from 'styled-components';
 
 interface PageDefaultProps {
   children: any;
