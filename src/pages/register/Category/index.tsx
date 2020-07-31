@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import Button from '../../../components/Button';
 
 interface FormData {
   name: string;
@@ -45,21 +46,21 @@ function RegisterCategory() {
 
       <form onSubmit={handleSubmit}>
         <FormField
-          label="Nome da Categoria:"
+          label="Nome da Categoria"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
         />
         <FormField
-          label="Descrição:"
-          type="text"
+          label="Descrição"
+          type="textarea"
           name="description"
           value={formData.description}
           onChange={handleChange}
         />
         <FormField
-          label="Cor:"
+          label="Cor"
           type="color"
           name="color"
           value={formData.color}
@@ -74,9 +75,9 @@ function RegisterCategory() {
           ))}
         </ul>
 
-        <button>
+        <Button>
           Cadastrar
-        </button>
+        </Button>
       </form>
 
       <Link to="/">
