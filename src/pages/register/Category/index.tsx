@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
 
 interface FormData {
+  id: number;
   name: string;
   description: string;
   color: string;
@@ -12,6 +13,7 @@ interface FormData {
 
 function RegisterCategory() {
   const initialFormData = {
+    id: 0,
     name: '',
     description: '',
     color: '',
@@ -40,6 +42,15 @@ function RegisterCategory() {
     setFormData(initialFormData);
   }
 
+  useEffect(() => {
+    const URL = 'http://localhost:8080/categorias';
+    fetch(URL)
+      .then(async (response) => {
+        const formatedResponse = await response.json();
+        setCategories([...formatedResponse]);
+      });
+  }, []);
+
   return (
     <PageDefault>
       <h1>Cadastro de Categoria</h1>
@@ -66,6 +77,12 @@ function RegisterCategory() {
           value={formData.color}
           onChange={handleChange}
         />
+
+        {categories.length === 0 && (
+          <div>
+            Loading...
+          </div>
+        )}
 
         <ul>
           {categories.map((category, index) => (
