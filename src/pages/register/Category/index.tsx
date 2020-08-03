@@ -1,55 +1,54 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, FormEvent, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
+
+import categoriesAPI from '../../../api/categories';
 
 interface FormData {
   id: number;
-  name: string;
+  title: string;
   description: string;
   color: string;
 }
 
 function RegisterCategory() {
+  const history = useHistory();
+
   const initialFormData = {
     id: 0,
-    name: '',
+    title: '',
     description: '',
     color: '',
   };
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  const { formData, handleChange } = useForm(initialFormData);
+
   const [categories, setCategories] = useState<FormData[]>([]);
-
-  function setData(key: string, value: string) {
-    setFormData({
-      ...formData,
-      [key]: value,
-    });
-  }
-
-  function handleChange(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const { name, value } = event.target;
-    setData(name, value);
-  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setCategories([...categories, formData]);
-    setFormData(initialFormData);
+    const category = {
+      title: formData.title,
+      color: formData.color,
+    };
+    categoriesAPI.create(category)
+      .then(() => {
+        history.push('/');
+      });
+
+    // setCategories([...categories, formData]);
+    // clearForm();
   }
 
   useEffect(() => {
-    const URL = window.location.hostname.includes('localhost')
-    ? 'http://localhost:8080/categorias'
-    : 'https://adaflix.herokuapp.com/categorias';
-    fetch(URL)
-      .then(async (response) => {
-        const formatedResponse = await response.json();
-        setCategories([...formatedResponse]);
+    categoriesAPI
+      .getAll()
+      .then((categoriesResponse) => {
+        setCategories([...categoriesResponse]);
       });
   }, []);
 
@@ -61,8 +60,8 @@ function RegisterCategory() {
         <FormField
           label="Nome da Categoria"
           type="text"
-          name="name"
-          value={formData.name}
+          name="title"
+          value={formData.title}
           onChange={handleChange}
         />
         <FormField
@@ -89,7 +88,7 @@ function RegisterCategory() {
         <ul>
           {categories.map((category, index) => (
             <li key={`${category}${index}`}>
-              {category.name}
+              {category.title}
             </li>
           ))}
         </ul>
@@ -98,6 +97,8 @@ function RegisterCategory() {
           Cadastrar
         </Button>
       </form>
+
+      <br />
 
       <Link to="/">
         Ir para home

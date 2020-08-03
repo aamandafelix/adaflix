@@ -6,24 +6,7 @@ import {
 } from './styles';
 import VideoCard from './components/VideoCard';
 import Slider, { SliderItem } from './components/Slider';
-
-interface LinkExtra {
-  text: string;
-  url: string;
-}
-
-interface Video {
-  titulo: string;
-  url: string;
-}
-
-interface Category {
-  titulo: string;
-  link?: string;
-  cor: string;
-  link_extra?: LinkExtra;
-  videos: Video[];
-}
+import { Category } from '../../types';
 
 interface VideoCardGroupProps {
   ignoreFirstVideo?: boolean;
@@ -34,8 +17,8 @@ function VideoCardGroup({
   ignoreFirstVideo,
   category,
 }: VideoCardGroupProps) {
-  const categoryTitle = category.titulo;
-  const categoryColor = category.cor;
+  const categoryTitle = category.title;
+  const categoryColor = category.color;
   const categoryExtraLink = category?.link_extra;
   const videos = category.videos;
   return (
@@ -45,9 +28,9 @@ function VideoCardGroup({
           <Title style={{ backgroundColor: categoryColor || 'red' }}>
             {categoryTitle}
           </Title>
-          {categoryExtraLink && 
+          {categoryExtraLink &&
             <ExtraLink href={categoryExtraLink.url} target="_blank">
-              {categoryExtraLink.text}  
+              {categoryExtraLink.text}
             </ExtraLink>
           }
         </>
@@ -59,9 +42,9 @@ function VideoCardGroup({
           }
 
           return (
-            <SliderItem key={video.titulo}>
+            <SliderItem key={video.title}>
               <VideoCard
-                videoTitle={video.titulo}
+                videoTitle={video.title}
                 videoURL={video.url}
                 categoryColor={categoryColor}
               />
